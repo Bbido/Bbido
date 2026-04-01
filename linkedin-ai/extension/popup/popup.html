@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LinkedAI</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+          <path d="M12 2L9.5 8.5H3L8.5 12.5L6.5 19L12 15L17.5 19L15.5 12.5L21 8.5H14.5L12 2Z"/>
+        </svg>
+        <span>LinkedAI</span>
+      </div>
+      <div class="badge" id="plan-badge">Free</div>
+    </div>
+
+    <!-- Logged out state -->
+    <div id="logged-out" class="section hidden">
+      <div class="hero">
+        <div class="hero-icon">✍️</div>
+        <h2>Write better on LinkedIn</h2>
+        <p>AI-powered posts, comments & messages in seconds.</p>
+      </div>
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="you@example.com" />
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="••••••••" />
+      </div>
+      <div id="auth-error" class="error hidden"></div>
+      <button class="btn-primary" id="login-btn">Sign In</button>
+      <p class="link-text">No account? <a href="#" id="signup-link">Create free account</a></p>
+    </div>
+
+    <!-- Signup state -->
+    <div id="signup-form" class="section hidden">
+      <h3 class="section-title">Create free account</h3>
+      <div class="input-group">
+        <label>Full Name</label>
+        <input type="text" id="signup-name" placeholder="John Smith" />
+      </div>
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" id="signup-email" placeholder="you@example.com" />
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="signup-password" placeholder="••••••••" />
+      </div>
+      <div id="signup-error" class="error hidden"></div>
+      <button class="btn-primary" id="signup-btn">Create Account</button>
+      <p class="link-text"><a href="#" id="back-login">← Back to sign in</a></p>
+    </div>
+
+    <!-- Logged in state -->
+    <div id="logged-in" class="section hidden">
+      <div class="user-info">
+        <div class="avatar" id="user-avatar">B</div>
+        <div>
+          <div class="user-name" id="user-name">Loading...</div>
+          <div class="user-email" id="user-email"></div>
+        </div>
+      </div>
+
+      <!-- Usage bar -->
+      <div class="usage-card" id="usage-card">
+        <div class="usage-header">
+          <span>Daily Generations</span>
+          <span id="usage-count">0 / 5</span>
+        </div>
+        <div class="usage-bar">
+          <div class="usage-fill" id="usage-fill" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Pro badge area -->
+      <div id="pro-card" class="pro-card hidden">
+        <span>⭐</span>
+        <span>Pro Plan — Unlimited generations</span>
+      </div>
+
+      <!-- Quick generate -->
+      <div class="quick-gen">
+        <div class="section-title">Quick Generate</div>
+        <div class="type-grid">
+          <button class="type-btn active" data-type="post">✍️ Post</button>
+          <button class="type-btn" data-type="comment">💬 Comment</button>
+          <button class="type-btn" data-type="message">✉️ Message</button>
+          <button class="type-btn" data-type="improve">✨ Improve</button>
+        </div>
+        <textarea id="quick-topic" placeholder="Enter your topic or paste text to improve..." rows="3"></textarea>
+        <button class="btn-primary" id="quick-gen-btn">Generate</button>
+        <div id="quick-output"></div>
+      </div>
+
+      <!-- Upgrade section -->
+      <div id="upgrade-section" class="upgrade-section">
+        <div class="upgrade-text">
+          <strong>🚀 Go Pro</strong>
+          <span>Unlimited generations + priority AI</span>
+        </div>
+        <button class="btn-upgrade" id="upgrade-btn">$9/mo</button>
+      </div>
+
+      <button class="btn-link" id="logout-btn">Sign out</button>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
