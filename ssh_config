@@ -1,0 +1,6 @@
+Host dspacecris-nc1
+    HostName dspacecris-nc1.mandela.ac.za
+    User bbido
+    IdentityFile ~/.ssh/id_rsa
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
