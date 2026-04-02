@@ -68,7 +68,7 @@ router.post('/', requireAuth, async (req, res) => {
   if (!user.pro) {
     const today = new Date().toISOString().split('T')[0];
 
-    const { data: usage } = await supabase
+    const { data: usage } = await getSupabase()
       .from('usage')
       .select('count')
       .eq('user_id', user.id)
