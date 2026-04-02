@@ -1,6 +1,8 @@
 const router = require('express').Router();
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const Stripe = require('stripe');
 const supabase = require('../lib/supabase');
+
+const getStripe = () => Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder');
 
 // POST /api/webhook — Stripe webhook handler
 router.post('/', async (req, res) => {
@@ -8,6 +10,7 @@ router.post('/', async (req, res) => {
   let event;
 
   try {
+    const stripe = getStripe();
     event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
   } catch (err) {
     console.error('Webhook signature failed:', err.message);

@@ -1,6 +1,8 @@
 const router = require('express').Router();
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const Stripe = require('stripe');
 const { requireAuth } = require('../middleware/auth');
+
+const getStripe = () => Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder');
 
 // POST /api/checkout — creates Stripe checkout session
 router.post('/', requireAuth, async (req, res) => {
@@ -11,6 +13,7 @@ router.post('/', requireAuth, async (req, res) => {
   }
 
   try {
+    const stripe = getStripe();
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
       payment_method_types: ['card'],
