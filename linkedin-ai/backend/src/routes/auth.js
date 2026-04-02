@@ -19,6 +19,8 @@ router.post('/register', async (req, res) => {
     return res.status(400).json({ message: 'Password must be at least 6 characters' });
   }
 
+  const supabase = getSupabase();
+
   const { data: existing } = await supabase
     .from('users')
     .select('id')
@@ -58,6 +60,8 @@ router.post('/login', async (req, res) => {
   if (!email || !password) {
     return res.status(400).json({ message: 'Email and password are required' });
   }
+
+  const supabase = getSupabase();
 
   const { data: user } = await supabase
     .from('users')
