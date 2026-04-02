@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const supabase = require('../lib/supabase');
+const getSupabase = require('../lib/supabase');
 
 async function requireAuth(req, res, next) {
   const authHeader = req.headers.authorization;
@@ -12,7 +12,7 @@ async function requireAuth(req, res, next) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const { data: user, error } = await supabase
+    const { data: user, error } = await getSupabase()
       .from('users')
       .select('*')
       .eq('id', decoded.userId)

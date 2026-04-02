@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const supabase = require('../lib/supabase');
+const getSupabase = require('../lib/supabase');
 
 function generateToken(userId) {
   return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '90d' });

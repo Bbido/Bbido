@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Anthropic = require('@anthropic-ai/sdk');
 const { requireAuth } = require('../middleware/auth');
-const supabase = require('../lib/supabase');
+const getSupabase = require('../lib/supabase');
 
 const getClient = () => new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY || 'placeholder' });
 const FREE_LIMIT = parseInt(process.env.FREE_DAILY_LIMIT || '5');
@@ -86,9 +86,9 @@ router.post('/', requireAuth, async (req, res) => {
 
     // Increment usage
     if (usage) {
-      await supabase.from('usage').update({ count: usedToday + 1 }).eq('user_id', user.id).eq('date', today);
+      await getSupabase().from('usage').update({ count: usedToday + 1 }).eq('user_id', user.id).eq('date', today);
     } else {
-      await supabase.from('usage').insert({ user_id: user.id, date: today, count: 1 });
+      await getSupabase().from('usage').insert({ user_id: user.id, date: today, count: 1 });
     }
   }
 

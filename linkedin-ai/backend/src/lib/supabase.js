@@ -1,9 +1,16 @@
 const { createClient } = require('@supabase/supabase-js');
 
-const supabase = createClient(
-  process.env.SUPABASE_URL || '',
-  process.env.SUPABASE_SERVICE_KEY || '',
-  { auth: { persistSession: false } }
-);
+let _client = null;
 
-module.exports = supabase;
+function getSupabase() {
+  if (!_client) {
+    _client = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_KEY,
+      { auth: { persistSession: false } }
+    );
+  }
+  return _client;
+}
+
+module.exports = getSupabase;

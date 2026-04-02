@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Stripe = require('stripe');
-const supabase = require('../lib/supabase');
+const getSupabase = require('../lib/supabase');
 
 const getStripe = () => Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder');
 
@@ -23,7 +23,7 @@ router.post('/', async (req, res) => {
       const userId = session.metadata?.userId || session.client_reference_id;
 
       if (userId) {
-        await supabase.from('users').update({
+        await getSupabase().from('users').update({
           pro: true,
           stripe_customer_id: session.customer,
           stripe_subscription_id: session.subscription,
@@ -36,14 +36,14 @@ router.post('/', async (req, res) => {
 
     case 'customer.subscription.deleted': {
       const subscription = event.data.object;
-      const { data: user } = await supabase
+      const { data: user } = await getSupabase()
         .from('users')
         .select('id')
         .eq('stripe_subscription_id', subscription.id)
         .single();
 
       if (user) {
-        await supabase.from('users').update({ pro: false }).eq('id', user.id);
+        await getSupabase().from('users').update({ pro: false }).eq('id', user.id);
         console.log(`User ${user.id} downgraded from Pro`);
       }
       break;

@@ -2,29 +2,27 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
+const authRoutes = require('../src/routes/auth');
+const generateRoutes = require('../src/routes/generate');
+const usageRoutes = require('../src/routes/usage');
+const checkoutRoutes = require('../src/routes/checkout');
+const webhookRoutes = require('../src/routes/webhook');
+
 const app = express();
+
 app.use(cors({ origin: '*' }));
+
+app.use('/api/webhook', express.raw({ type: 'application/json' }), webhookRoutes);
+
 app.use(express.json());
 
-const loaded = [];
-const errors = [];
+app.get('/api/health', (req, res) => res.json({ ok: true, version: '1.0.0' }));
 
-try { require('../src/routes/auth'); loaded.push('auth'); }
-catch(e) { errors.push({ route: 'auth', error: e.message }); }
+app.use('/api/auth', authRoutes);
+app.use('/api/generate', generateRoutes);
+app.use('/api/usage', usageRoutes);
+app.use('/api/checkout', checkoutRoutes);
 
-try { require('../src/routes/generate'); loaded.push('generate'); }
-catch(e) { errors.push({ route: 'generate', error: e.message }); }
-
-try { require('../src/routes/usage'); loaded.push('usage'); }
-catch(e) { errors.push({ route: 'usage', error: e.message }); }
-
-try { require('../src/routes/checkout'); loaded.push('checkout'); }
-catch(e) { errors.push({ route: 'checkout', error: e.message }); }
-
-try { require('../src/routes/webhook'); loaded.push('webhook'); }
-catch(e) { errors.push({ route: 'webhook', error: e.message }); }
-
-app.get('/api/health', (req, res) => res.json({ ok: true, loaded, errors }));
 app.use((req, res) => res.status(404).json({ message: 'Not found' }));
 
 module.exports = app;

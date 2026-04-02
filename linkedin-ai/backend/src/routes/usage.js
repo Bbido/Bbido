@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { requireAuth } = require('../middleware/auth');
-const supabase = require('../lib/supabase');
+const getSupabase = require('../lib/supabase');
 
 const FREE_LIMIT = parseInt(process.env.FREE_DAILY_LIMIT || '5');
 
