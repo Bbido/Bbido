@@ -105,7 +105,7 @@ router.post('/', requireAuth, async (req, res) => {
     res.json({ text, type });
   } catch (err) {
     console.error('Generation error:', err);
-    res.status(500).json({ message: 'Generation failed. Please try again.' });
+    res.status(500).json({ message: 'Generation failed. Please try again.', debug: err.message });
   }
 });
 
